@@ -1,10 +1,71 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc'
 import { TbFidgetSpinner } from 'react-icons/tb'
+import { toast } from "react-hot-toast";
+import { useContext } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const SignUp = () => {
 
-    const loading = '';
+    const {
+        loading,
+        setLoading,
+        // signInWithGoogle,
+        createUser,
+        updateUserProfile,
+    } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+    console.log(import.meta.env.VITE_IMGBB_KEY)
+    // Handle user registration
+    const handleSubmit = event => {
+        event.preventDefault()
+        const name = event.target.name.value
+        const email = event.target.email.value
+        const password = event.target.password.value
+
+        // Image Upload
+        const image = event.target.image.files[0]
+        const formData = new FormData()
+        formData.append('image', image)
+
+        const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY
+            }`
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+        })
+            .then(res => res.json())
+            .then(imageData => {
+                const imageUrl = imageData.data.display_url
+
+                createUser(email, password)
+                    .then(result => {
+                        console.log(result)
+                        updateUserProfile(name, imageUrl)
+                            .then(() => {
+                                toast.success('Signup successful')
+                                navigate(from, { replace: true })
+                            })
+                            .catch(err => {
+                                setLoading(false)
+                                console.log(err.message)
+                                toast.error(err.message)
+                            })
+                    })
+                    .catch(err => {
+                        setLoading(false)
+                        console.log(err.message)
+                        toast.error(err.message)
+                    })
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err.message)
+                toast.error(err.message)
+            })
+    }
 
     return (
         <div className='flex justify-center items-center min-h-screen'>
@@ -14,7 +75,7 @@ const SignUp = () => {
                     <p className='text-sm text-gray-400'>Welcome to AirCNC</p>
                 </div>
                 <form
-                    // onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                     noValidate=''
                     action=''
                     className='space-y-6 ng-untouched ng-pristine ng-valid'

@@ -1,14 +1,21 @@
 import { AiOutlineMenu } from 'react-icons/ai'
 import Avatar from './Avatar';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const MenuDropDown = () => {
+    const { user, logOut } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
     const toggleOpen = useCallback(() => {
         setIsOpen(value => !value);
     });
     console.log(isOpen);
+
+    const handleSignOut = () => {
+        logOut();
+    }
+
     return (
         <div className="relative">
             <div className="flex flex-row items-center gap-3">
@@ -33,21 +40,32 @@ const MenuDropDown = () => {
                             >
                                 Home
                             </Link>
-                            <div
-                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
-                            >
-                                LogOut
-                            </div>
-                            <Link to='/login'
-                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                            >
-                                Login
-                            </Link>
-                            <Link to='signup'
-                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                            >
-                                Sign Up
-                            </Link>
+                            {
+                                user ? (
+                                    <div
+                                        onClick={handleSignOut}
+                                        className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
+                                    >
+                                        LogOut
+                                    </div>
+                                )
+                                    :
+                                    (
+                                        <>
+                                            <Link to='/login'
+                                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                                            >
+                                                Login
+                                            </Link>
+                                            <Link to='signup'
+                                                className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                                            >
+                                                Sign Up
+                                            </Link>
+                                        </>
+                                    )
+                            }
+
                         </div>
                     </div>
                 )

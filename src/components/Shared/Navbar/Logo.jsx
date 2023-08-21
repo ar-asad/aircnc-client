@@ -17,12 +17,3 @@ const Logo = () => {
 
 export default Logo;
 
-{/* <Link to='/'>
-    <img
-        className='hidden md:block'
-        src={logoImg}
-        alt='logo'
-        width='100'
-        height='100'
-    />
-</Link> */}

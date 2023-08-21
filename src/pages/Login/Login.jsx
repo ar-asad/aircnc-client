@@ -1,11 +1,64 @@
+import { useContext, useRef } from 'react';
+import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc'
 
 import { TbFidgetSpinner } from 'react-icons/tb'
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const Login = () => {
+    const { loading, setLoading, signIn, signInWithGoogle, resetPassword } =
+        useContext(AuthContext)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
+    const emailRef = useRef()
+    // Handle submit
+    const handleSubmit = event => {
+        event.preventDefault()
+        const email = event.target.email.value
+        const password = event.target.password.value
+        signIn(email, password)
+            .then(result => {
+                console.log(result.user)
+                navigate(from, { replace: true })
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err.message)
+                toast.error(err.message)
+            })
+    }
 
-    const loading = "";
+    // Handle google signin
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(result => {
+                console.log(result.user)
+                navigate(from, { replace: true })
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err.message)
+                toast.error(err.message)
+            })
+    }
+
+    //   handle password reset
+    const handleReset = () => {
+        const email = emailRef.current.value
+
+        resetPassword(email)
+            .then(() => {
+                toast.success('Please check your email for reset link')
+                setLoading(false)
+            })
+            .catch(err => {
+                setLoading(false)
+                console.log(err.message)
+                toast.error(err.message)
+            })
+    }
 
     return (
         <div className='flex justify-center items-center min-h-screen'>
@@ -17,7 +70,7 @@ const Login = () => {
                     </p>
                 </div>
                 <form
-                    //   onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                     noValidate=''
                     action=''
                     className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -28,7 +81,7 @@ const Login = () => {
                                 Email address
                             </label>
                             <input
-                                // ref={emailRef}
+                                ref={emailRef}
                                 type='email'
                                 name='email'
                                 id='email'
@@ -70,7 +123,7 @@ const Login = () => {
                 </form>
                 <div className='space-y-1'>
                     <button
-                        // onClick={handleReset}
+                        onClick={handleReset}
                         className='text-xs hover:underline hover:text-rose-500 text-gray-400'
                     >
                         Forgot password?
@@ -84,7 +137,7 @@ const Login = () => {
                     <div className='flex-1 h-px sm:w-16 bg-gray-700'></div>
                 </div>
                 <div
-                    //   onClick={handleGoogleSignIn}
+                    onClick={handleGoogleSignIn}
                     className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
                 >
                     <FcGoogle size={32} />
