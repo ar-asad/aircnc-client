@@ -25,7 +25,6 @@ const Rooms = () => {
                 } else {
                     setRooms(data)
                 }
-
                 setLoading(false)
             })
             .catch(err => console.log(err))

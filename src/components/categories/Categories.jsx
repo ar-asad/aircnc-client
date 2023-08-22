@@ -1,13 +1,15 @@
-// import { useSearchParams } from "react-router-dom";
+
+import { useSearchParams } from "react-router-dom";
 import Container from "../Shared/Container";
 import { categories } from "./categoriesData";
-import CategoryBox from "./categoryBox";
+import CategoryBox from "./CategoryBox";
+
 
 
 
 const Categories = () => {
-    // const [params, setParams] = useSearchParams();
-    // console.log(params);
+    const [params, setParams] = useSearchParams();
+    const category = params.get('category')
 
     return (
         <Container>
@@ -18,6 +20,7 @@ const Categories = () => {
                             label={item.label}
                             icon={item.icon}
                             key={item.label}
+                            selected={category === item.label}
                         />
                     ))
                 }
