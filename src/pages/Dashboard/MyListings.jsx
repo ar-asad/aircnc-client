@@ -3,7 +3,7 @@
 const MyListings = () => {
     return (
         <div>
-            <h2>myListing romm here</h2>
+            <h2 className="text-5xl">myListing romm here</h2>
         </div>
     );
 };

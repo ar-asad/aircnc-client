@@ -1,6 +1,6 @@
 
 
-const MyBookis = () => {
+const MyBookigs = () => {
     return (
         <div>
             <h2>mybookings rooms here</h2>
@@ -8,4 +8,4 @@ const MyBookis = () => {
     );
 };
 
-export default MyBookis;
+export default MyBookigs;

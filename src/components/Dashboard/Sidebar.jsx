@@ -12,8 +12,8 @@ import HostMenu from "./HostMenu";
 const Sidebar = () => {
     const navigate = useNavigate()
     const [toggle, setToggle] = useState(false)
-    const { user, logOut, role } = useContext(AuthContext)
-
+    const { user, logOut } = useContext(AuthContext)
+    const role = true
     const [isActive, setActive] = useState(true)
     const toggleHandler = event => {
         setToggle(event.target.checked)
@@ -26,7 +26,7 @@ const Sidebar = () => {
         logOut()
         navigate('/')
     }
-
+    console.log(toggle);
     return (
         <>
             {/* Small Screen Navbar */}
@@ -46,8 +46,8 @@ const Sidebar = () => {
             </div>
             {/* Sidebar */}
             <div
-                className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
-                    }  md:translate-x-0  transition duration-200 ease-in-out`}
+                className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform  md:translate-x-0 -translate-x-full ${isActive ? 'translate-x-0' : ''
+                    }  transition duration-200 ease-in-out`}
             >
                 <div>
                     {/* Branding & Profile Info */}
@@ -80,7 +80,25 @@ const Sidebar = () => {
                     {/* Nav Items */}
                     <div className='flex flex-col justify-between flex-1 mt-6'>
                         <nav>
-                            {role && role === 'host' ? (
+
+                            {/* <label
+                                htmlFor='Toggle3'
+                                className='inline-flex w-full justify-center items-center px-2 rounded-md cursor-pointer text-gray-800'
+                            >
+                                <input
+                                    onChange={toggleHandler}
+                                    id='Toggle3'
+                                    type='checkbox'
+                                    className=' peer'
+                                />
+                                <span className='px-4 py-1 rounded-l-md bg-rose-400 peer-checked:bg-gray-300'>
+                                    Guest
+                                </span>
+                                <span className='px-4 py-1 rounded-r-md bg-gray-300 peer-checked:bg-rose-400'>
+                                    Host
+                                </span>
+                            </label> */}
+                            {role && role === true ? (
                                 <>
                                     <label
                                         htmlFor='Toggle3'
@@ -90,12 +108,12 @@ const Sidebar = () => {
                                             onChange={toggleHandler}
                                             id='Toggle3'
                                             type='checkbox'
-                                            className='hidden peer'
+                                            className='hidden'
                                         />
-                                        <span className='px-4 py-1 rounded-l-md bg-rose-400 peer-checked:bg-gray-300'>
+                                        <span className={`px-4 py-1 rounded-l-md ${toggle ? " bg-gray-300" : "bg-rose-400"}`}>
                                             Guest
                                         </span>
-                                        <span className='px-4 py-1 rounded-r-md bg-gray-300 peer-checked:bg-rose-400'>
+                                        <span className={`px-4 py-1 rounded-r-md ${toggle ? " bg-rose-400" : "bg-gray-300"}`}>
                                             Host
                                         </span>
                                     </label>
