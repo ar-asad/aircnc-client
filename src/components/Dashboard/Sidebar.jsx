@@ -5,6 +5,8 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
 import { AiOutlineBars } from 'react-icons/ai'
+import GuestMenu from "./GuestMenu";
+import HostMenu from "./HostMenu";
 
 
 const Sidebar = () => {
