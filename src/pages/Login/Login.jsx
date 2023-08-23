@@ -5,6 +5,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { TbFidgetSpinner } from 'react-icons/tb'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import { saveUser } from '../../api/auth';
 
 const Login = () => {
     const { loading, setLoading, signIn, signInWithGoogle, resetPassword } =
@@ -35,6 +36,8 @@ const Login = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result.user)
+                // save user in DB
+                saveUser(result.user);
                 navigate(from, { replace: true })
             })
             .catch(err => {
@@ -137,7 +140,7 @@ const Login = () => {
                     <div className='flex-1 h-px sm:w-16 bg-gray-700'></div>
                 </div>
                 <div
-                      onClick={handleGoogleSignIn}
+                    onClick={handleGoogleSignIn}
                     className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
                 >
                     <FcGoogle size={32} />
