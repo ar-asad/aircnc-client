@@ -12,12 +12,12 @@ import HostMenu from "./HostMenu";
 const Sidebar = () => {
     const navigate = useNavigate()
     const [toggle, setToggle] = useState(false)
-    const { user, logOut } = useContext(AuthContext)
-    const role = true
+    const { user, logOut, role } = useContext(AuthContext)
     const [isActive, setActive] = useState(true)
     const toggleHandler = event => {
         setToggle(event.target.checked)
     }
+    console.log(role)
     // Sidebar Responsive Handler
     const handleToggle = () => {
         setActive(!isActive)
@@ -26,7 +26,6 @@ const Sidebar = () => {
         logOut()
         navigate('/')
     }
-    console.log(toggle);
     return (
         <>
             {/* Small Screen Navbar */}
@@ -98,7 +97,7 @@ const Sidebar = () => {
                                     Host
                                 </span>
                             </label> */}
-                            {role && role === true ? (
+                            {role && role === "host" ? (
                                 <>
                                     <label
                                         htmlFor='Toggle3'
