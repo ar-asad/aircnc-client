@@ -82,7 +82,7 @@ const AddRoom = () => {
 
     const handleDates = ranges => {
         setDates(ranges.selection)
-        console.log(ranges.selection)
+
     }
     return (
         <div>

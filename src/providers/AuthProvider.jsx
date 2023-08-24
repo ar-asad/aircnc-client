@@ -27,9 +27,12 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         if (user) {
-            getRole(user.email).then(data => setRole(data))
+            getRole(user.email).then(data => {
+                console.log(data);
+                setRole(data)
+            })
         }
-    }, [user])
+    }, [user]);
 
     const createUser = (email, password) => {
         setLoading(true)

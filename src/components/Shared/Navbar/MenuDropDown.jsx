@@ -16,8 +16,8 @@ const MenuDropDown = () => {
         becomeHost(email).then(data => {
             console.log(data)
             toast.success('You are host now, Post Rooms!')
-            // setRole('host')
-            closeModal()
+            setRole('host')
+            closeModal();
         })
     }
     const closeModal = () => {
@@ -29,7 +29,7 @@ const MenuDropDown = () => {
     });
 
     const handleSignOut = () => {
-        // setRole(false);
+        setRole(null);
         logOut();
     }
 
@@ -37,10 +37,10 @@ const MenuDropDown = () => {
         <div className='relative'>
             <div className='flex flex-row items-center gap-3'>
                 {/* Aircnc btn */}
-                <div className='hidden md:block text-sm font-semibold rounded-full py-3 px-8   transition'>
+                <div className='hidden md:block '>
                     {!role && (
                         <button
-                            className='cursor-pointer hover:bg-neutral-100 py-3 px-4 '
+                            className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'
                             onClick={() => setModal(true)}
                             disabled={!user}
                         >
