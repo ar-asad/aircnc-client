@@ -5,13 +5,16 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import BookingModal from "../Modal/BookingModal";
 import { useNavigate } from "react-router-dom";
+import { addBooking, updateStatus } from "../../api/bookings";
+import { toast } from "react-hot-toast";
 
 
 const RoomReservation = ({ roomData }) => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
 
-    const { user, role } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
+
     const [value, setValue] = useState({
         startDate: new Date(roomData?.from),
         endDate: new Date(roomData?.to),
@@ -39,7 +42,6 @@ const RoomReservation = ({ roomData }) => {
         roomId: roomData._id,
         image: roomData.image,
     });
-
     const modalHandler = () => {
         addBooking(bookingInfo)
             .then(data => {
@@ -72,7 +74,11 @@ const RoomReservation = ({ roomData }) => {
             </div>
             <hr />
             <div className='p-4'>
-                <Button label='Reserve' />
+                <Button
+                    onClick={() => setIsOpen(true)}
+                    disabled={roomData.host.email === user.email || roomData.booked}
+                    label='Reserve'
+                />
             </div>
             <hr />
             <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
