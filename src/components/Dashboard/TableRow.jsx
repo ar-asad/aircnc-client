@@ -1,7 +1,29 @@
 import { format } from "date-fns";
+import { useState } from "react";
+import DeleteModal from "../Modal/DeleteModal";
+import { deleteBooking, updateStatus } from "../../api/bookings";
+import { toast } from "react-hot-toast";
 
 
-const TableRow = ({ booking }) => {
+const TableRow = ({ booking, fetchBookings }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
+    const modalHandler = (id) => {
+        deleteBooking(id).then(data => {
+            console.log(data)
+            updateStatus(booking.roomId, false).then(data => {
+                console.log(data)
+                fetchBookings()
+                toast.success('Booking Canceled')
+            })
+        })
+        closeModal()
+    }
+
     return (
         <tr>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -38,7 +60,7 @@ const TableRow = ({ booking }) => {
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                 <span
-                    // onClick={() => setIsOpen(true)}
+                    onClick={() => setIsOpen(true)}
                     className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
                 >
                     <span
@@ -47,12 +69,12 @@ const TableRow = ({ booking }) => {
                     ></span>
                     <span className='relative'>Cancel</span>
                 </span>
-                {/* <DeleteModal
+                <DeleteModal
                     isOpen={isOpen}
                     closeModal={closeModal}
                     modalHandler={modalHandler}
                     id={booking._id}
-                /> */}
+                />
             </td>
         </tr>
     )
