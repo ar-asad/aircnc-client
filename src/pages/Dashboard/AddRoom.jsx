@@ -54,7 +54,7 @@ const AddRoom = () => {
                     },
                     category,
                 }
-
+                console.log(roomData);
                 // post room data to server
                 addRoom(roomData)
                     .then(data => {
