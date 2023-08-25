@@ -1,7 +1,7 @@
 import { AiOutlineMenu } from 'react-icons/ai'
 import Avatar from './Avatar';
 import { useCallback, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../providers/AuthProvider';
 import HostModal from '../../Modal/HostModal';
 import { toast } from 'react-hot-toast';
@@ -10,13 +10,14 @@ import { becomeHost } from '../../../api/auth';
 const MenuDropDown = () => {
     const { user, logOut, role, setRole } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
-    const [modal, setModal] = useState(false)
-    console.log(role)
+    const [modal, setModal] = useState(false);
+    const navigate = useNavigate();
     const modalHandler = email => {
         becomeHost(email).then(data => {
             console.log(data)
             toast.success('You are host now, Post Rooms!')
             setRole('host')
+            navigate('/dashboard/add-room')
             closeModal();
         })
     }
