@@ -3,22 +3,36 @@ import { getRooms } from "../../api/rooms";
 import { AuthContext } from "../../providers/AuthProvider";
 import RoomDataRaw from "../../components/Dashboard/RoomDataRaw";
 import EmptyState from "../../components/Shared/EmptyState";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 
 const MyListings = () => {
-    const { user } = useContext(AuthContext);
-    const [rooms, setRooms] = useState([]);
-    console.log(rooms);
+    const { user, loading } = useContext(AuthContext);
+    const [axiosSecure] = useAxiosSecure();
+    // const [rooms, setRooms] = useState([]);
 
-    const fetchRooms = () => {
-        getRooms(user?.email).then(data => {
-            setRooms(data)
-        });
-    }
+    const { refetch, data: rooms = [], } = useQuery({
+        queryKey: ['rooms', user?.email],
+        enabled: !loading,
+        queryFn: async () => {
+            const res = await axiosSecure(
+                `${import.meta.env.VITE_API_URL}/rooms/${user?.email}`
+            )
+            console.log('res from axios', res.data)
+            return res.data
+        },
+    })
 
-    useEffect(() => {
-        fetchRooms();
-    }, [user]);
+    // const fetchRooms = () => {
+    //     axiosSecure.get(`/rooms/${user?.email}`)
+    //         .then(data => setRooms(data.data))
+    // };
+
+
+    // useEffect(() => {
+    //     fetchRooms();
+    // }, [user]);
 
     return (
         <>
@@ -80,8 +94,8 @@ const MyListings = () => {
                                                 <RoomDataRaw
                                                     key={room?._id}
                                                     room={room}
-                                                    // refetch={refetch}
-                                                    fetchRooms={fetchRooms}
+                                                    refetch={refetch}
+                                                // fetchRooms={fetchRooms}
                                                 />
                                             ))}
                                     </tbody>

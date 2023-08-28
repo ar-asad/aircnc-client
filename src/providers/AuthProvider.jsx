@@ -13,7 +13,7 @@ import {
 import { app } from "../firebase/firebase.config"
 import { getRole } from "../api/auth"
 import axios from "axios"
-import { data } from "autoprefixer"
+
 
 
 export const AuthContext = createContext(null)
@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (user) {
             getRole(user.email).then(data => {
-                console.log(data);
                 setRole(data)
             })
         }

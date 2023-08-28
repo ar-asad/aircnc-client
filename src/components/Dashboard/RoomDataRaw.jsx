@@ -3,25 +3,30 @@ import DeleteModal from "../Modal/DeleteModal";
 import { useState } from "react";
 import { deleteRoom } from "../../api/rooms";
 import { toast } from "react-hot-toast";
+import UpdateRoomModal from "../Modal/UpdateRoomModal";
 
 
-const RoomDataRaw = ({ room, fetchRooms }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const RoomDataRow = ({ room, refetch }) => {
+    const [isOpen, setIsOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
+    function openModal() {
+        setIsOpen(true)
+    }
+    function closeModal() {
+        setIsOpen(false)
+    }
     const modalHandler = id => {
-        deleteRoom(id).then(data => {
-            console.log(data)
-            fetchRooms();
-            toast.success('Room deleted')
-        })
+        console.log(id)
+        deleteRoom(id)
+            .then(data => {
+                console.log(data)
+                refetch()
+                toast.success('Room deleted')
+            })
             .catch(err => console.log(err))
         closeModal()
     }
-
     return (
         <tr>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -58,7 +63,7 @@ const RoomDataRaw = ({ room, fetchRooms }) => {
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                 <span
-                    onClick={() => setIsOpen(true)}
+                    onClick={openModal}
                     className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
                 >
                     <span
@@ -75,16 +80,27 @@ const RoomDataRaw = ({ room, fetchRooms }) => {
                 />
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                <span className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
+                <span
+                    onClick={() => setIsEditModalOpen(true)}
+                    className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+                >
                     <span
                         aria-hidden='true'
                         className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
                     ></span>
                     <span className='relative'>Update</span>
                 </span>
+                <UpdateRoomModal
+                    isOpen={isEditModalOpen}
+                    closeModal={() => setIsEditModalOpen(false)}
+                    room={room}
+                    id={room._id}
+                    refetch={refetch}
+                    setIsEditModalOpen={setIsEditModalOpen}
+                />
             </td>
         </tr>
     )
-};
+}
 
-export default RoomDataRaw;
+export default RoomDataRow

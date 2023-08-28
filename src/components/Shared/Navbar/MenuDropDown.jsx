@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { becomeHost } from '../../../api/auth';
 
 const MenuDropDown = () => {
-    const { user, logOut, role, setRole } = useContext(AuthContext);
+    const { user, logOut, role, setRole,setLoading } = useContext(AuthContext);
     const [isOpen, setIsOpen] = useState(false);
     const [modal, setModal] = useState(false);
     const navigate = useNavigate();
@@ -32,6 +32,7 @@ const MenuDropDown = () => {
     const handleSignOut = () => {
         setRole(null);
         logOut();
+        setLoading(false);
     }
 
     return (
