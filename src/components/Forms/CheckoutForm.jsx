@@ -72,6 +72,7 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
         if (confirmError) {
             console.log(confirmError)
             setCardError(confirmError.message)
+            setProcessing(false);
         }
 
         console.log('payment intent', paymentIntent)
@@ -95,7 +96,10 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
                             navigate('/dashboard/my-bookings')
                             closeModal()
                         })
-                        .catch(err => console.log(err))
+                        .catch(err => {
+                            setProcessing(false)
+                            console.log(err)
+                        })
                 }
             })
         }

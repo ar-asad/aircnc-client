@@ -1,34 +1,43 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Loader from "../Shared/Loader";
 import Container from "../Shared/Container";
 import Card from "./Card";
 import Heading from "../Heading/Heading";
 import { useSearchParams } from "react-router-dom";
-import { getAllRooms } from "../../api/rooms";
+import { FilterContext } from "../../providers/FilterProvider";
+// import { getAllRooms } from "../../api/rooms";
 
 
 const Rooms = () => {
+    const { rooms, loading, setRoomCategory } = useContext(FilterContext);
     const [params, setParams] = useSearchParams();
     const category = params.get('category');
 
-    const [rooms, setRooms] = useState([]);
-    const [loading, setLoading] = useState(false);
-
     useEffect(() => {
-        setLoading(true);
-        getAllRooms()
-            .then(data => {
-                if (category) {
-                    const filtered = data.filter(room => room.category === category)
-                    setRooms(filtered)
-                } else {
-                    setRooms(data)
-                }
-                setLoading(false)
-            })
-            .catch(err => console.log(err))
-    }, [category])
+        setRoomCategory(category);
+    }, [category, setRoomCategory]);
 
+    // const [temData, setTemData] = useState([]);
+    // const [rooms, setRooms] = useState([]);
+    // const [loading, setLoading] = useState(false);
+
+    // useEffect(() => {
+    //     setLoading(true);
+    //     getAllRooms()
+    //         .then(data => {
+    //             if (category) {
+    //                 const filtered = data.filter(room => room.category === category)
+    //                 setRooms(filtered)
+    //                 setTemData(filtered)
+    //             } else {
+    //                 setRooms(data)
+    //                 setTemData(data)
+    //             }
+    //             setLoading(false)
+    //         })
+    //         .catch(err => console.log(err))
+    // }, [category])
+    // console.log(temData)
 
     if (loading) {
         return <Loader />

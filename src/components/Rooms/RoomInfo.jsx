@@ -35,7 +35,7 @@ const RoomInfo = ({ roomData }) => {
               '
                 >
                     <div>{roomData?.guests} guests</div>
-                    <div>{roomData?.bedrooms} rooms</div>
+                    <div>{roomData?.bedrooms} badrooms</div>
                     <div>{roomData?.bathrooms} bathrooms</div>
                 </div>
             </div>

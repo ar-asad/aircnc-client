@@ -8,7 +8,7 @@ const Navbar = () => {
     return (
         <div className="fixed py-4 w-full bg-white z-10 shadow-sm border-b-[1px]">
             <Container>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center gap-2">
                     <Logo />
                     <Search />
                     <MenuDropDown />
