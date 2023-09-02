@@ -13,7 +13,8 @@ const HeartButton = () => {
             <AiOutlineHeart
                 size={28}
                 className='
-          fill-white
+                
+        fill-white   
           absolute
           -top-[2px]
           -right-[2px]
@@ -21,7 +22,7 @@ const HeartButton = () => {
             />
             <AiFillHeart
                 size={24}
-                className='fill-neutral-500/70 hover:fill-rose-500'
+                className='fill-neutral-500/70'
             />
         </div>
     );

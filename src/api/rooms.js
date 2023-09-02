@@ -19,6 +19,13 @@ export const getAllRooms = async () => {
     return data
 };
 
+// get price filtered room
+export const getPricesRooms = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/filter`)
+    const data = await response.json()
+    return data
+};
+
 //get filtered rooms for hosts
 export const getRooms = async email => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms/${email}`)

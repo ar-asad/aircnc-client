@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 
 
-const FilterModal = ({ closeModal, isOpen, showRooms, handleModal, price, setPrice, setBedRooms, setBathRooms, handleClearAll }) => {
+const FilterModal = ({ closeModal, isOpen, showRooms, handleModal, price, setPrice, setBedRooms, setBathRooms, handleClearAll, bathrooms, bedrooms }) => {
 
     // console.log(showRooms.length);
     const Bedrooms = [
@@ -100,12 +100,13 @@ const FilterModal = ({ closeModal, isOpen, showRooms, handleModal, price, setPri
                                         <h3 className="font-medium text-lg mb-3">Bedrooms</h3>
                                         <div className="flex items-center gap-3 overflow-x-auto pb-3">
                                             {
-                                                Bedrooms.map(bath =>
+                                                Bedrooms.map(bed =>
                                                     // console.log(bath.Number)
                                                     <p
-                                                        onClick={() => setBedRooms(bath.Number)}
-                                                        key={bath.id}
-                                                        className=" border-[1px] px-6 py-2 rounded-full " > {bath.Number}</p>
+                                                        onClick={() => setBedRooms(bed.Number)}
+                                                        key={bed.id}
+                                                        className={`border-[1px] px-6 py-2 rounded-full ${bed.Number == bedrooms ? 'bg-red-500 text-white' : ''
+                                                            }`} > {bed.Number}</p>
                                                 )
                                             }
                                         </div>
@@ -121,7 +122,8 @@ const FilterModal = ({ closeModal, isOpen, showRooms, handleModal, price, setPri
                                                     <p
                                                         onClick={() => setBathRooms(bath.Number)}
                                                         key={bath.id}
-                                                        className=" border-[1px] px-6 py-2 rounded-full" > {bath.Number}</p>
+                                                        className={`border-[1px] px-6 py-2 rounded-full ${bath.Number == bathrooms ? 'bg-red-500 text-white' : ''
+                                                            }`} > {bath.Number}</p>
                                                 )
                                             }
                                         </div>

@@ -1,12 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import { getAllRooms } from "../api/rooms";
+import { getAllRooms, getPricesRooms } from "../api/rooms";
 
 
 
 export const FilterContext = createContext(null);
 
 const FilterProvider = ({ children }) => {
-    // const [minPrice, setMinPrice] = useState(0);
     const [price, setPrice] = useState(3000);
     const [bedrooms, setBedRooms] = useState(null);
     const [bathrooms, setBathRooms] = useState(null);
@@ -16,6 +15,15 @@ const FilterProvider = ({ children }) => {
     const [change, setChange] = useState(false);
 
     const [temData, setTemData] = useState([]);
+
+    // console.log(price)
+
+    // useEffect(() => {
+    //     setLoading(true)
+    //     getPricesRooms()
+    //         .then(data => setPrice(data?.maxPrice))
+    //     setLoading(false)
+    // }, [])
 
     const filteredData = (filteredData) => {
         const filterByPrice = filteredData.filter(room => room.price <= price);

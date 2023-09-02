@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import HeartButton from "../Button/HeartButton";
 
 
-const Card = ({ room }) => {
+const Card = ({ room, setIsOpen, wishToggle }) => {
     return (
         <Link to={`/room/${room._id}`} className='col-span-1 cursor-pointer group'>
             <div className='flex flex-col gap-2 w-full'>
@@ -26,15 +26,14 @@ const Card = ({ room }) => {
                         src={room.image}
                         alt='Room'
                     />
-                    <div
-                        className='
-              absolute
-              top-3
-              right-3
-            '
+                    <Link
+                        onClick={() => {
+                            setIsOpen(true)
+                        }}
+                        className=' absolute top-3 right-3'
                     >
                         <HeartButton />
-                    </div>
+                    </Link>
                 </div>
                 <div className='font-semibold text-lg'>{room.location}</div>
                 <div className='font-light text-neutral-500'>
@@ -45,7 +44,7 @@ const Card = ({ room }) => {
                     <div className='font-light'>night</div>
                 </div>
             </div>
-        </Link>
+        </Link >
     );
 };
 

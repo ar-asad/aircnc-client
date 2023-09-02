@@ -13,10 +13,6 @@ import { PiSlidersHorizontalBold } from "react-icons/pi";
 
 const Categories = () => {
     const [params, setParams] = useSearchParams();
-    // const [minPrice, setMinPrice] = useState(0);
-    // const [maxPrice, setMaxPrice] = useState(3000);
-    // const [price, setPrice] = useState(3000);
-    // const [rooms, setRooms] = useState([]);
     const category = params.get('category')
     const [isOpen, setIsOpen] = useState(false);
     const [showRooms, setShowRooms] = useState([]);
@@ -25,8 +21,7 @@ const Categories = () => {
     useEffect(() => {
         getAllRooms()
             .then(data => setShowRooms(data))
-    }, [])
-
+    }, []);
 
     useEffect(() => {
         const filterByPrice = temData.filter(room => room.price <= price);
@@ -49,7 +44,7 @@ const Categories = () => {
             setShowRooms(filterByPrice)
         }
 
-    }, [bathrooms, bedrooms, price, change])
+    }, [bathrooms, bedrooms, price, change]);
 
 
     const closeModal = () => {
@@ -61,11 +56,10 @@ const Categories = () => {
     };
 
     const handleClearAll = () => {
-        console.log('cleare.......')
         setPrice(3000);
         setBedRooms(null)
         setBathRooms(null)
-    }
+    };
 
     return (
         <Container>
@@ -82,11 +76,11 @@ const Categories = () => {
                         ))
                     }
                 </div>
-                <div className="px-4 py-3 border-[1px] flex items-center gap-2 rounded-xl mt-3 font-semibold text-[14px]">
+                <div
+                    onClick={() => setIsOpen(true)}
+                    className="px-4 py-3 border-[1px] flex items-center gap-2 rounded-xl mt-3 font-semibold text-[14px]">
                     <PiSlidersHorizontalBold />
-                    <h4
-                        onClick={() => setIsOpen(true)}
-                    >
+                    <h4>
                         Filters
                     </h4>
                 </div>
@@ -100,7 +94,9 @@ const Categories = () => {
                     handleClearAll={handleClearAll}
                     showRooms={showRooms}
                     handleModal={handleModal}
-                // handleFilter={handleFilter}
+                    bedrooms={bedrooms}
+                    bathrooms={bathrooms}
+
                 />
             </div>
         </Container>
