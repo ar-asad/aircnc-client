@@ -13,11 +13,20 @@ export const addRoom = async roomData => {
 };
 
 // Get all rooms
-export const getAllRooms = async () => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms`)
+export const getAllRooms = async (size, page) => {
+    console.log(size, page)
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms?page=${page}&size=${size}`)
     const data = await response.json()
     return data
 };
+
+//Get total room count
+export const getCountRoom = async () => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/roomCount`)
+    const data = await response.json()
+    return data
+}
+
 
 // get price filtered room
 export const getPricesRooms = async () => {

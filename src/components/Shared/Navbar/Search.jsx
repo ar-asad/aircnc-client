@@ -1,10 +1,20 @@
 import { BiSearch } from 'react-icons/bi'
+import RegionChooseModal from '../../Modal/RegionChooseModal';
+import { useState } from 'react';
 
 const Search = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
     return (
         <div className='border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer'>
             <div className='flex flex-row justify-between items-center'>
-                <div className='text-sm px-6 font-semibold '>
+                <div
+                    onClick={() => setIsOpen(true)}
+                    className='text-sm px-6 font-semibold '>
                     Anywhere
                 </div>
                 <div className='hidden sm:block text-sm px-6 font-semibold border-x-[2px] text-center'>
@@ -19,6 +29,12 @@ const Search = () => {
                     </div>
                 </div>
             </div>
+            <RegionChooseModal
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                // handleWishlist={handleWishlist}
+                closeModal={closeModal}
+            />
         </div>
     );
 };

@@ -16,8 +16,11 @@ const FilterProvider = ({ children }) => {
 
     const [temData, setTemData] = useState([]);
 
-    // console.log(price)
+    // pagination state
+    const [page, setPage] = useState(0);
+    const [size, setSize] = useState(5);
 
+    // console.log(rooms)
     // useEffect(() => {
     //     setLoading(true)
     //     getPricesRooms()
@@ -57,7 +60,8 @@ const FilterProvider = ({ children }) => {
         }
     }
 
-    console.log(temData);
+    // console.log(temData);
+    console.log(rooms)
 
     useEffect(() => {
         setLoading(true);
@@ -65,6 +69,7 @@ const FilterProvider = ({ children }) => {
             .then(data => {
                 if (roomCategory) {
                     const filtered = data.filter(room => room.category === roomCategory)
+                    setPage(0);
                     filteredData(filtered);
                     setChange(() => !change)
                 }
@@ -116,7 +121,11 @@ const FilterProvider = ({ children }) => {
         setRoomCategory,
         loading,
         roomCategory,
-        change
+        change,
+        page,
+        setPage,
+        setSize,
+        size
 
     }
 

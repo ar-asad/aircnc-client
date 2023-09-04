@@ -6,51 +6,63 @@ import Heading from "../Heading/Heading";
 import { useSearchParams } from "react-router-dom";
 import { FilterContext } from "../../providers/FilterProvider";
 import WishListModal from "../Modal/WishListModal";
+import { getCountRoom } from "../../api/rooms";
 
 
 
 const Rooms = () => {
-    const { rooms, loading, setRoomCategory } = useContext(FilterContext);
+    const { rooms, loading, setRoomCategory, page, setPage, setSize, size } = useContext(FilterContext);
     const [params, setParams] = useSearchParams();
     const category = params.get('category');
-    const [isOpen, setIsOpen] = useState(false);
+    const [pageCount, setPageCount] = useState(0);
+    // const [copyRoom, setCopyRoom] = useState([...rooms]);
 
-    const closeModal = () => {
-        setIsOpen(false);
-    };
-
+    // useEffect(() => {
+    //     getCountRoom()
+    //         .then(data => setPageCount(Math.ceil(data.count / size)))
+    // }, [size])
 
     useEffect(() => {
         setRoomCategory(category);
     }, [category, setRoomCategory]);
 
-    // Save WishList card in database
-    const handleWishlist = () => {
-        console.log('wishlist.............')
-    }
 
     if (loading) {
         return <Loader />
     }
+
     return (
         <Container>
             {
                 rooms && rooms.length > 0 ? (
-                    <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
-                        {rooms.map((room, index) => (
-                            <Card
-                                key={index}
-                                room={room}
-                                setIsOpen={setIsOpen}
+                    <div>
+                        <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
+                            {[...rooms].splice(Number(page * size), Number(size)).map((room, index) => (
+                                <Card
+                                    key={index}
+                                    room={room}
 
-                            />
-                        ))}
-                        <WishListModal
-                            isOpen={isOpen}
-                            setIsOpen={setIsOpen}
-                            handleWishlist={handleWishlist}
-                            closeModal={closeModal}
-                        />
+                                />
+                            ))}
+
+                        </div>
+                        {<div className="mt-16 mb-10 text-center">
+                            {
+                                [...Array(Math.ceil(rooms?.length / size)).keys()].map((number, i) => <button
+                                    onClick={() => setPage(number)}
+                                    className={`px-4 py-2 border-red-400 border-[1px] transition rounded-sm ${page === number ? 'bg-red-400 text-white' : ''}`}
+                                    key={i}>{number + 1}</button>)
+                            }
+                            <select
+                                value={size}
+                                onChange={(e) => setSize(e.target.value)}
+                                className="px-4 py-2 border-red-400 border-[1px] transition rounded-sm">
+                                <option value="5" >5</option>
+                                <option value="7" >7</option>
+                                {/* <option value="15">15</option>
+                                <option value="15">20</option> */}
+                            </select>
+                        </div>}
                     </div>
                 )
                     :
@@ -64,7 +76,7 @@ const Rooms = () => {
                         </div>
                     )
             }
-        </Container>
+        </Container >
     );
 };
 

@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
 
-const WishListModal = ({ isOpen, closeModal, handleWishlist }) => {
+const DeleteWishListModal = ({ isOpen, closeModal }) => {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -37,23 +37,18 @@ const WishListModal = ({ isOpen, closeModal, handleWishlist }) => {
                                     Add this your WishLists
                                 </Dialog.Title>
                                 <hr className="mb-10" />
-                                {/* <div className='mt-4'>
-                                    <input type="text" placeholder="Name" className="input input-bordered border-2 rounded-lg input-secondary w-full p-3 mb-[2px] " />
-                                    <span className="text-[14px]">50 characters maximum</span>
-                                </div> */}
-                                {/* <hr className='mt-8 ' /> */}
                                 <div className='flex mt-2 justify-around'>
                                     <button
                                         type='button'
                                         className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
-                                        onClick={() => closeModal()}
+                                    // onClick={() => closeModal()}
                                     >
                                         No
                                     </button>
                                     <button
                                         type='button'
                                         className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
-                                        onClick={() => handleWishlist()}
+                                    // onClick={() => handleWishlist()}
                                     >
                                         Added
                                     </button>
@@ -67,4 +62,4 @@ const WishListModal = ({ isOpen, closeModal, handleWishlist }) => {
     );
 };
 
-export default WishListModal;
+export default DeleteWishListModal;
