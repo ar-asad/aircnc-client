@@ -14,7 +14,7 @@ export const addRoom = async roomData => {
 
 // Get all rooms
 export const getAllRooms = async (size, page) => {
-    console.log(size, page)
+
     const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms?page=${page}&size=${size}`)
     const data = await response.json()
     return data
@@ -49,6 +49,36 @@ export const getRoom = async id => {
     return data
 }
 
+// Get wishList room filtered by email
+export const getWishListRoom = async (email) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/wishList/${email}`)
+    const data = await response.json()
+    return data
+}
+// Add a wishList room
+export const addWishListRoom = async (wishListData) => {
+    const responce = await fetch(`${import.meta.env.VITE_API_URL}/wishList`, {
+        method: 'POST',
+        headers: {
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(wishListData)
+    })
+    const data = responce.json();
+    return data;
+
+}
+// Delete a wishlist room
+export const deleteWishListRoom = async id => {
+    const responce = await fetch(`${import.meta.env.VITE_API_URL}/wishList/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json'
+        },
+    })
+    const result = await responce.json()
+    return result
+}
 // Delete a room
 export const deleteRoom = async id => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms/${id}`, {

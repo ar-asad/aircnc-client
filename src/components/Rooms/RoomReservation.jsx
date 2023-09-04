@@ -12,7 +12,6 @@ import { toast } from "react-hot-toast";
 const RoomReservation = ({ roomData }) => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
-
     const { user } = useContext(AuthContext);
 
     const [value, setValue] = useState({
@@ -42,6 +41,7 @@ const RoomReservation = ({ roomData }) => {
         roomId: roomData._id,
         image: roomData.image,
     });
+
 
     const closeModal = () => {
         setIsOpen(false)

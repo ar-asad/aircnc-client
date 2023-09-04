@@ -1,25 +1,25 @@
-import { format } from "date-fns";
 import { useState } from "react";
 import DeleteModal from "../Modal/DeleteModal";
-import { deleteBooking, updateStatus } from "../../api/bookings";
+import { deleteWishListRoom } from "../../api/rooms";
 import { toast } from "react-hot-toast";
+import { format } from "date-fns";
+import { Link } from "react-router-dom";
+// import { format } from "date-fns";
 
 
-const TableRow = ({ booking, fetchBookings }) => {
+const WishListRaw = ({ list, fetchWishList }) => {
     const [isOpen, setIsOpen] = useState(false);
     const closeModal = () => {
         setIsOpen(false);
     };
-    console.log(booking._id)
+
+    console.log(list._id)
+
     const modalHandler = (id) => {
-        deleteBooking(id).then(data => {
-            updateStatus(booking.roomId, false)
-                .then(data => {
-                    console.log(data)
-                    toast.success('Booking Canceled')
-                    fetchBookings()
-                })
+        deleteWishListRoom(id).then(data => {
             console.log(data)
+            toast.success('Yout wishList deleted')
+            fetchWishList()
         })
         closeModal()
     }
@@ -27,35 +27,37 @@ const TableRow = ({ booking, fetchBookings }) => {
     return (
         <tr>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                <div className='flex items-center'>
-                    <div className='flex-shrink-0'>
-                        <div className='block relative'>
-                            <img
-                                alt='profile'
-                                src={booking?.image}
-                                className='mx-auto object-cover rounded h-10 w-15 '
-                            />
+                <Link to={`/room/${list.room._id}`}>
+                    <div className='flex items-center'>
+                        <div className='flex-shrink-0'>
+                            <div className='block relative'>
+                                <img
+                                    alt='profile'
+                                    src={list?.room?.image}
+                                    className='mx-auto object-cover rounded h-10 w-15 '
+                                />
+                            </div>
+                        </div>
+                        <div className='ml-3'>
+                            <p className='text-gray-900 whitespace-no-wrap'>{list?.room?.title}</p>
                         </div>
                     </div>
-                    <div className='ml-3'>
-                        <p className='text-gray-900 whitespace-no-wrap'>{booking?.title}</p>
-                    </div>
-                </div>
+                </Link>
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                <p className='text-gray-900 whitespace-no-wrap'>{booking?.location}</p>
+                <p className='text-gray-900 whitespace-no-wrap'>{list?.room?.location}</p>
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                <p className='text-gray-900 whitespace-no-wrap'>${booking?.price}</p>
+                <p className='text-gray-900 whitespace-no-wrap'>${list?.room?.price}</p>
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                 <p className='text-gray-900 whitespace-no-wrap'>
-                    {format(new Date(booking?.from), 'P')}
+                    {format(new Date(list?.room?.from), 'P')}
                 </p>
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                 <p className='text-gray-900 whitespace-no-wrap'>
-                    {format(new Date(booking?.to), 'P')}
+                    {format(new Date(list?.room?.to), 'P')}
                 </p>
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -73,19 +75,12 @@ const TableRow = ({ booking, fetchBookings }) => {
                     isOpen={isOpen}
                     closeModal={closeModal}
                     modalHandler={modalHandler}
-                    id={booking._id}
+                    id={list?._id}
                 />
             </td>
         </tr>
+
     )
 };
 
-export default TableRow;
-
-
-
-
-
-
-
-
+export default WishListRaw;

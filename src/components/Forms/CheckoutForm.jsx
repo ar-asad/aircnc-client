@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import './CheckoutForm.css';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { updateStatus } from '../../api/bookings';
+import { deleteWishListRoom } from '../../api/rooms';
 
 const CheckoutForm = ({ bookingInfo, closeModal }) => {
     const stripe = useStripe();
@@ -85,16 +86,20 @@ const CheckoutForm = ({ bookingInfo, closeModal }) => {
                 date: new Date(),
             }
             axiosSecure.post('/bookings', paymentInfo).then(res => {
-                console.log(res.data)
                 if (res.data.insertedId) {
                     updateStatus(bookingInfo.roomId, true)
                         .then(data => {
-                            setProcessing(false)
+                            deleteWishListRoom(bookingInfo.roomId)
+                                .then(data => {
+                                    console.log(data)
+                                    setProcessing(false)
+                                    const text = `Booking Successful!, TransactionId: ${paymentIntent.id}`
+                                    toast.success(text)
+                                    navigate('/dashboard/my-bookings')
+                                    closeModal()
+                                })
+
                             console.log(data)
-                            const text = `Booking Successful!, TransactionId: ${paymentIntent.id}`
-                            toast.success(text)
-                            navigate('/dashboard/my-bookings')
-                            closeModal()
                         })
                         .catch(err => {
                             setProcessing(false)

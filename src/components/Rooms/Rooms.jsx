@@ -6,16 +6,18 @@ import Heading from "../Heading/Heading";
 import { useSearchParams } from "react-router-dom";
 import { FilterContext } from "../../providers/FilterProvider";
 import WishListModal from "../Modal/WishListModal";
-import { getCountRoom } from "../../api/rooms";
+import { getCountRoom, getWishListRoom } from "../../api/rooms";
+import { AuthContext } from "../../providers/AuthProvider";
 
 
 
 const Rooms = () => {
     const { rooms, loading, setRoomCategory, page, setPage, setSize, size } = useContext(FilterContext);
+    const { user } = useContext(AuthContext);
     const [params, setParams] = useSearchParams();
     const category = params.get('category');
     const [pageCount, setPageCount] = useState(0);
-    // const [copyRoom, setCopyRoom] = useState([...rooms]);
+    const [wishListRoom, setWishListRoom] = useState([]);
 
     // useEffect(() => {
     //     getCountRoom()
@@ -26,6 +28,11 @@ const Rooms = () => {
         setRoomCategory(category);
     }, [category, setRoomCategory]);
 
+    // Get wishListRoom
+    useEffect(() => {
+        getWishListRoom(user?.email)
+            .then(data => setWishListRoom(data))
+    }, [user])
 
     if (loading) {
         return <Loader />
@@ -41,7 +48,8 @@ const Rooms = () => {
                                 <Card
                                     key={index}
                                     room={room}
-
+                                    wishListRoom={wishListRoom}
+                                    user={user}
                                 />
                             ))}
 
